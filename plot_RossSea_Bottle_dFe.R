@@ -98,14 +98,28 @@ ctd_bottle[[74]]@data$`dFe (nM)`[which(is.nan(ctd_bottle[[74]]@data$`dFe (nM)`))
 ctd_bottle[[74]]@data$pressure[which(is.nan(ctd_bottle[[74]]@data$pressure))] <- NA
 dFe_data <- rbind(dFe_data, data.frame(Pressure=ctd_bottle[[74]]@data$pressure,dFe=ctd_bottle[[74]]@data$`dFe (nM)`,Cast=cast[74], Survey="Survey 2"))
 
+# Create pdf file
+pdf("dFE.pdf", width=6, height=6)
+
 # Facet plot of the data
 ggplot(data=dFe_data) + 
   geom_point(mapping = aes(x=dFe, y=Pressure)) + 
   facet_wrap(~Cast, scales = "fixed") + 
   scale_y_reverse() +
-  #xlab(c("Dissolved Iron (", expression(~ mu), "M)")) +
-  #xlab(expression("Greek Text" ~ alpha * beta)) +
   xlab(expression(paste("Dissolved Iron (",~mu,"M)"))) +
   ylab("Pressure (db)")
 
+dev.off()
 
+# Create TIFF file
+tiff("dFE.tiff", width=6, height=6, units='in', res=1200, compression = 'lzw')
+
+# Facet plot of the data
+ggplot(data=dFe_data) + 
+  geom_point(mapping = aes(x=dFe, y=Pressure)) + 
+  facet_wrap(~Cast, scales = "fixed") + 
+  scale_y_reverse() +
+  xlab(expression(paste("Dissolved Iron (",~mu,"M)"))) +
+  ylab("Pressure (db)")
+
+dev.off()
