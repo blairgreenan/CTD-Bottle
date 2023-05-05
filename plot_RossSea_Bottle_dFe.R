@@ -42,9 +42,9 @@ names(data)[137:177] <- trimws(substr(NBP1201_bottle$HPLC.data.columns, 7, 60))
 
 # create a set of unique cast numbers (note that there is a cast 4.2,
 # so that means there are 118 locations with 119 CTD casts)
-cast <- unique(data[['CTD Cast #']])
+STN <- unique(data[['Station #']])
 # Get rid of NAN from the cast # list
-cast <- cast[-which(is.nan(cast))]
+#cast <- cast[-which(is.nan(cast))]
 
 # Edit the longitude so that it matches the convention in the Ross Sea bathymetry data
 for (i in 1:length(data$`Longitude (decimal Deg)`)){
@@ -59,14 +59,14 @@ for (i in 1:length(data$`Longitude (decimal Deg)`)){
 ctd_bottle <- list()
 
 # loop to populate the ctd object with data and metadata for each CTD cast
-for (i in seq_along(cast)) {
-  cat('Cast', cast[i], '...')
-  II <- data[['CTD Cast #']] == cast[i]
+for (i in seq_along(STN)) {
+  cat('STATION', STN[i], '...')
+  II <- data[['Station #']] == STN[i]
   ## create the ctd_bottle object
   tmp <- as.ctd(salinity=data$`sal00: Salinity, Practical [PSU]`[II],
                 temperature=data$`t090C: Temperature [ITS-90, deg C]`[II],
                 pressure=data$`prDM: Pressure, Digiquartz [db]`[II],
-                station = data$`CTD Cast #`[II][1],
+                station = data$`Station #`[II][1],
                 cruise = "NBP1201",
                 ship = "R/V Nathaniel B. Palmer") # just use the first element of the station vector in the data - oddity of the MAT file having a station # for each point in the CTD profile
   # add the other fields that were collected by the CTD system on the R/V NBP
@@ -90,13 +90,13 @@ dFe_data <- list()
 for (j in c(36, 38, 40, 44, 48)) {
   ctd_bottle[[j]]@data$`dFe (nM)`[which(is.nan(ctd_bottle[[j]]@data$`dFe (nM)`))] <- NA
   ctd_bottle[[j]]@data$pressure[which(is.nan(ctd_bottle[[j]]@data$pressure))] <- NA
-  dFe_data <- rbind(dFe_data, data.frame(Pressure=ctd_bottle[[j]]@data$pressure,dFe=ctd_bottle[[j]]@data$`dFe (nM)`,Cast=cast[j], Survey="Survey 1"))
+  dFe_data <- rbind(dFe_data, data.frame(Pressure=ctd_bottle[[j]]@data$pressure,dFe=ctd_bottle[[j]]@data$`dFe (nM)`,Facet_STN=STN[j], Survey="Survey 1"))
 }
 
 # Second occupation of Ross Bank (Station 74 near top of the bank)
 ctd_bottle[[74]]@data$`dFe (nM)`[which(is.nan(ctd_bottle[[74]]@data$`dFe (nM)`))] <- NA
 ctd_bottle[[74]]@data$pressure[which(is.nan(ctd_bottle[[74]]@data$pressure))] <- NA
-dFe_data <- rbind(dFe_data, data.frame(Pressure=ctd_bottle[[74]]@data$pressure,dFe=ctd_bottle[[74]]@data$`dFe (nM)`,Cast=cast[74], Survey="Survey 2"))
+dFe_data <- rbind(dFe_data, data.frame(Pressure=ctd_bottle[[74]]@data$pressure,dFe=ctd_bottle[[74]]@data$`dFe (nM)`,Facet_STN=STN[74], Survey="Survey 2"))
 
 # Create pdf file
 pdf("dFE.pdf", width=6, height=6)
@@ -104,7 +104,7 @@ pdf("dFE.pdf", width=6, height=6)
 # Facet plot of the data
 ggplot(data=dFe_data) + 
   geom_point(mapping = aes(x=dFe, y=Pressure)) + 
-  facet_wrap(~Cast, scales = "fixed") + 
+  facet_wrap(~Facet_STN, scales = "fixed") + 
   scale_y_reverse() +
   xlab(expression(paste("Dissolved Iron (",~mu,"M)"))) +
   ylab("Pressure (db)")
@@ -117,7 +117,7 @@ tiff("dFE.tiff", width=6, height=6, units='in', res=1200, compression = 'lzw')
 # Facet plot of the data
 ggplot(data=dFe_data) + 
   geom_point(mapping = aes(x=dFe, y=Pressure)) + 
-  facet_wrap(~Cast, scales = "fixed") + 
+  facet_wrap(~Facet_STN, scales = "fixed") + 
   scale_y_reverse() +
   xlab(expression(paste("Dissolved Iron (",~mu,"M)"))) +
   ylab("Pressure (db)")
