@@ -3,7 +3,7 @@
 # Fisheries and Oceans Canada
 # 1 May 2023
 #
-# Description: this script generates a faceted plot with profile of disssolved iron
+# Description: this script generates a faceted plot with profile of dissolved iron
 # from the 6 trace metal CTD casts that we carried out over Ross Bank. The first 5 
 # casts were on Survey 1 and the final cast was at the Ross Bank summit on the second
 # survey
