@@ -4,7 +4,7 @@
 # 1 May 2023
 #
 # Description: this script generates a faceted plot with profile of CTD bottle
-# that were carried out over the NE-SW section across Survey 1 of Ross Bank.
+# that were carried out over the NE-SW section across Survey 2 of Ross Bank.
 #
 # load libraries
 library(oce)
@@ -98,9 +98,8 @@ for (i in seq_along(CTD_cast)) {
 
 # Create a section using the function from the oce package
 ctd_section <- as.section(ctd_bottle)
-# Create a subset for the NE-SW section over Ross Bank CTD casts 37-44
-# Note that cast 42 is not included because this was a calibration cast at the SeaHorse mooring site and not a part of the CTD secion
-RB <- subset(ctd_section, 37 <= stationId & stationId <= 44 & stationId != 42)
+# Create a subset for the NE-SW section over Ross Bank CTD casts 74-80
+RB <- subset(ctd_section, 74 <= stationId & stationId <= 80)
 # Grid the data in the subset using the oce SectionGrid function
 RBgrid <- sectionGrid(RB, p=seq(0,1000,10))
 # Reverse the order of the stations so that it is presented in descending order which presents better as West on left and East on right side of plot
@@ -111,7 +110,7 @@ RossSeaBathy@data$z <- -1*RossSeaBathy@data$z
 #dev.new()
 #dev.new()
 # Print figure to a TIFF file format
-tiff("CTD37-44_bottle.tiff", width=6, height=6, units='in', res=1200, compression = 'lzw')
+tiff("CTD74-80_bottle.tiff", width=6, height=6, units='in', res=1200, compression = 'lzw')
 par(mfrow=c(3,2))
 plot(RBgrid2, which="Phosphate (uM)", ztype = "image", zcol = cmocean('matter'), zbreaks=seq(1, 2.1, 0.1), showBottom = RossSeaBathy, legend.text = 'A', xlab="", ylim = c(600, 0))
 text(5,550,expression("Phosphate (\u03BCM)"), adj=0)
