@@ -1,12 +1,10 @@
 # plot_RossSea_Bottle_Data.R
 # Blair Greenan
 # Fisheries and Oceans Canada
-# 1 May 2023
+# 28 Jun 2023
 #
 # Description: this script generates a faceted plot with profile of dissolved iron
-# from the 6 trace metal CTD casts that we carried out over Ross Bank. The first 5 
-# casts were on Survey 1 and the final cast was at the Ross Bank summit on the second
-# survey
+# from the 6 trace metal CTD casts that we carried out over Joides Trough.
 #
 # load libraries
 library(oce)
@@ -92,32 +90,26 @@ for (i in seq_along(TM_cast)) {
   
 }
 
+# Station 79, 82, 85, 86, 89, 92
+# CTD cast 81, 84, 87, 88, 91, 94
+# TMCTD cast 38, 39, 40, 41, 42, 43
+# TM_cast index 33, 34, 35, 36, 37, 38
 # Water depth in metres compiled from nbp1201_ctd_list - BG.xlsx
-water_depth = c(674, 172, 302, 297, 594, 170)
+water_depth = c(260, 567, 353, 289, 578, 274)
 
 # Create a data frame for the dFe data collected at the 5 stations on Ross Bank
 dFe_data <- list()
-for (j in c(21, 22, 23, 24, 25)) {
+for (j in c(33, 34, 35, 36, 37, 38)) {
 #  ctd_bottle[[j]]@data$`dFe (nM)`[which(is.nan(ctd_bottle[[j]]@data$`dFe (nM)`))] <- NA
 #  ctd_bottle[[j]]@data$pressure[which(is.nan(ctd_bottle[[j]]@data$pressure))] <- NA
   dFe_omit <- as.numeric(na.omit(ctd_bottle[[j]]@data$`dFe (nM)`))
   Press_omit <- as.numeric(na.omit(ctd_bottle[[j]]@data$`depth Fe`))
-  dFe_data <- rbind(dFe_data, data.frame(Pressure=Press_omit,dFe=dFe_omit,Facet_cast=TM_cast[j], WD=water_depth[j-20], Survey="Survey 1"))
+  dFe_data <- rbind(dFe_data, data.frame(Pressure=Press_omit,dFe=dFe_omit,Facet_cast=TM_cast[j], WD=water_depth[j-32], Survey="Survey 1"))
 }
 
-# Second occupation of Ross Bank (Station 74 near top of the bank)
-#ctd_bottle[[32]]@data$`dFe (nM)`[which(is.nan(ctd_bottle[[32]]@data$`dFe (nM)`))] <- NA
-#ctd_bottle[[32]]@data$pressure[which(is.nan(ctd_bottle[[32]]@data$pressure))] <- NA
-#dFe_data <- rbind(dFe_data, data.frame(Pressure=ctd_bottle[[32]]@data$pressure,dFe=ctd_bottle[[32]]@data$`dFe (nM)`,Facet_cast=TM_cast[32], Survey="Survey 2"))
-dFe_omit2 <- as.numeric(na.omit(ctd_bottle[[32]]@data$`dFe (nM)`))
-Press_omit2 <- as.numeric(na.omit(ctd_bottle[[32]]@data$`depth Fe`))
-dFe_data <- rbind(dFe_data, data.frame(Pressure=Press_omit2,dFe=dFe_omit2,Facet_cast=TM_cast[32], WD=water_depth[6], Survey="Survey 2"))
 
 # create a depth above bottom variable
 dFe_data$Above_bottom <- dFe_data$WD-dFe_data$Pressure
-
-# Create pdf file
-#pdf("dFE_TMCTD_cast.pdf", width=6, height=6)
 
 dev.new()
 # Facet plot of the data
@@ -125,13 +117,12 @@ ggplot(data=dFe_data) +
   geom_point(mapping = aes(x=dFe, y=Pressure)) + 
   facet_wrap(~Facet_cast, scales = "fixed") + 
   scale_y_reverse() +
-#  xlab(expression(paste("Dissolved Iron (",~mu,"M)"))) +  # mistake on my part....units should be nM
   xlab("Dissolved Iron (nM)") +
   ylab("Depth (m)") +
   geom_hline(data=dFe_data, aes(yintercept=WD))
 
-ggsave("RossBank_dFe.png", width = 10, height = 8, units = c("cm"), dpi = 1200, bg = "white", scale = 1.5)
-ggsave("RossBank_dFe.pdf", width = 10, height = 8, units = c("cm"), dpi = 1200, bg = "white", scale = 1.5)
+ggsave("Joides_dFe.png", width = 10, height = 8, units = c("cm"), dpi = 1200, bg = "white", scale = 1.5)
+ggsave("Joides_dFe.pdf", width = 10, height = 8, units = c("cm"), dpi = 1200, bg = "white", scale = 1.5)
 
 dev.off()
 
@@ -144,8 +135,8 @@ ggplot(data=dFe_data) +
   ylab("Depth Above Bottom (m)")
 
 
-ggsave("RossBank_dFe_above_bottom.png", width = 10, height = 8, units = c("cm"), dpi = 1200, bg = "white", scale = 1.5)
-ggsave("RossBank_dFe_above_bottom.pdf", width = 10, height = 8, units = c("cm"), dpi = 1200, bg = "white", scale = 1.5)
+ggsave("Joides_dFe_above_bottom.png", width = 10, height = 8, units = c("cm"), dpi = 1200, bg = "white", scale = 1.5)
+ggsave("Joides_dFe_above_bottom.pdf", width = 10, height = 8, units = c("cm"), dpi = 1200, bg = "white", scale = 1.5)
 
 dev.off()
 
