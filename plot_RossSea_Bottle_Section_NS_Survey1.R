@@ -106,7 +106,7 @@ RBgrid2 <- sectionGrid(RB, p=seq(0,1000,10))
 # Reverse the order of the stations so that it is presented in descending order which presents better as West on left and East on right side of plot
 # RBgrid2 <- sectionSort(RBgrid, decreasing = TRUE)
 # Add topography to the plot
-RossSeaBathy <- read.topo(file = "C:/Users/greenanb/Documents/Science Projects/Current/Ross Sea/Data/Ross Sea Bathymetry/topo_198W_174W_78.5S_72.5S_1min.nc")
+RossSeaBathy <- read.topo(file = "C:/Science Projects/Ross Sea/Data/Ross Sea Bathymetry/topo_198W_174W_78.5S_72.5S_1min.nc")
 RossSeaBathy@data$z <- -1*RossSeaBathy@data$z
 #dev.new()
 #dev.new()
