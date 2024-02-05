@@ -123,31 +123,31 @@ dFe_data$Above_bottom <- dFe_data$WD-dFe_data$Pressure
 #pdf("dFE_TMCTD_cast.pdf", width=6, height=6)
 
 ############# Add the ROMS model dFe profiles
-scale_factor <- 1/2.5 # factor to scale the model results
+scale_factor <- 1/1 # factor to scale the model results
 dFe_model <- list()
 model26_data <- read.csv(file = "./ROMS_dFe/Model.TM26.012112.csv", sep = ",", header = FALSE)
-model26_depth <- -1*model26_data$V1[model26_data$V4<10]
-model26_dFe <- scale_factor*model26_data$V4[model26_data$V4<10]
+model26_depth <- -1*model26_data$V1[model26_data$V5<10]
+model26_dFe <- scale_factor*model26_data$V5[model26_data$V5<10]
 dFe_model <- rbind(dFe_model, data.frame(Pressure=model26_depth,dFe=model26_dFe,Facet_cast=26))
 model27_data <- read.csv(file = "./ROMS_dFe/Model.TM27.012112.csv", sep = ",", header = FALSE)
-model27_depth <- -1*model27_data$V1[model27_data$V4<10]
-model27_dFe <- scale_factor*model27_data$V4[model27_data$V4<10]
+model27_depth <- -1*model27_data$V1[model27_data$V5<10]
+model27_dFe <- scale_factor*model27_data$V5[model27_data$V5<10]
 dFe_model <- rbind(dFe_model, data.frame(Pressure=model27_depth,dFe=model27_dFe,Facet_cast=27))
 model28_data <- read.csv(file = "./ROMS_dFe/Model.TM28.012112.csv", sep = ",", header = FALSE)
-model28_depth <- -1*model28_data$V1[model28_data$V4<10]
-model28_dFe <- scale_factor*model28_data$V4[model28_data$V4<10]
+model28_depth <- -1*model28_data$V1[model28_data$V5<10]
+model28_dFe <- scale_factor*model28_data$V5[model28_data$V5<10]
 dFe_model <- rbind(dFe_model, data.frame(Pressure=model28_depth,dFe=model28_dFe,Facet_cast=28))
 model29_data <- read.csv(file = "./ROMS_dFe/Model.TM29.012112.csv", sep = ",", header = FALSE)
-model29_depth <- -1*model29_data$V1[model29_data$V4<10]
-model29_dFe <- scale_factor*model29_data$V4[model29_data$V4<10]
+model29_depth <- -1*model29_data$V1[model29_data$V5<10]
+model29_dFe <- scale_factor*model29_data$V5[model29_data$V5<10]
 dFe_model <- rbind(dFe_model, data.frame(Pressure=model29_depth,dFe=model29_dFe,Facet_cast=29))
 model30_data <- read.csv(file = "./ROMS_dFe/Model.TM30.012112.csv", sep = ",", header = FALSE)
-model30_depth <- -1*model30_data$V1[model30_data$V4<10]
-model30_dFe <- scale_factor*model30_data$V4[model30_data$V4<10]
+model30_depth <- -1*model30_data$V1[model30_data$V5<10]
+model30_dFe <- scale_factor*model30_data$V5[model30_data$V5<10]
 dFe_model <- rbind(dFe_model, data.frame(Pressure=model30_depth,dFe=model30_dFe,Facet_cast=30))
 model27_data <- read.csv(file = "./ROMS_dFe/Model.TM27.012112.csv", sep = ",", header = FALSE)
-model27_depth <- -1*model27_data$V1[model27_data$V4<10]
-model27_dFe <- scale_factor*model27_data$V4[model27_data$V4<10]
+model27_depth <- -1*model27_data$V1[model27_data$V5<10]
+model27_dFe <- scale_factor*model27_data$V5[model27_data$V5<10]
 dFe_model <- rbind(dFe_model, data.frame(Pressure=model27_depth,dFe=model27_dFe,Facet_cast=37))
 
 
