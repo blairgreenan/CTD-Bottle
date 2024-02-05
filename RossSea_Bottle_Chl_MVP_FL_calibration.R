@@ -121,7 +121,7 @@ CTD_chl <- c()
 for (jj in 1:length(ctd_bottle)) {
   ctd_time <- ctd_bottle[[jj]]@metadata$startTime
   # Get the index values for the range of times
-  MVP_survey_time <- which(MVP_tidy_tibble$daten>=(ctd_time-hours(1)) & MVP_tidy_tibble$daten<=(ctd_time+hours(1)))
+  MVP_survey_time <- which(MVP_tidy_tibble$daten>=(ctd_time-hours(2)) & MVP_tidy_tibble$daten<=(ctd_time+hours(2)))
   if (length(MVP_survey_time)>0) {
     MVP_survey_depth_match <- which(MVP_tidy_tibble$pres[MVP_survey_time] %in% ctd_bottle[[jj]]@data$`Nominal Depth (m)`)
     for (kk in 1:length(MVP_survey_depth_match)) {
@@ -147,16 +147,17 @@ chl_tibble <- chl_tibble %>%
   rename(CTD_Chla = CTD_chl_rm_nan)
 
 # Create a linear model
-chl_model <- lm(chl_tibble$MVP_Fluorometer ~ chl_tibble$CTD_Chla)
+#chl_model <- lm(chl_tibble$MVP_Fluorometer ~ chl_tibble$CTD_Chla)
+chl_model <- lm(chl_tibble$CTD_Chla ~ chl_tibble$MVP_Fluorometer)
 
 # Print a summary of the linear regression
 summary(chl_model)
 
 
 # plot the data with ggplot
-plt <- ggplot(data = chl_tibble, aes(x=CTD_Chla, y=MVP_Fluorometer)) + 
-  geom_point() + xlab("Chlorophyll (\u03BCg/L)") +
-  ylab("MVP Fluorometer") + xlim(c(-1, 25)) + ylim(c(-1, 25))
+plt <- ggplot(data = chl_tibble, aes(x=MVP_Fluorometer, y=CTD_Chla)) + 
+  geom_point() + ylab("Chlorophyll (\u03BCg/L)") +
+  xlab("MVP Fluorometer") + xlim(c(-1, 25)) + ylim(c(-1, 25))
 # geom_point() + xlim(c(-1, 25)) + ylim(c(-1, 25)) + xlab("Chlorophyll (\mug/L") +
   
 # Overlay the linear fit using geom_smooth
