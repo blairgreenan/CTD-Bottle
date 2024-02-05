@@ -9,6 +9,7 @@
 # survey
 #
 # Update 29 Jan 2024: Added the ROMS model dFe profiles at the trace metal cast locations.
+# Plotted as red lines on the facet plot with Pete's dFe data.
 #
 # load libraries
 library(oce)
@@ -122,7 +123,7 @@ dFe_data$Above_bottom <- dFe_data$WD-dFe_data$Pressure
 #pdf("dFE_TMCTD_cast.pdf", width=6, height=6)
 
 ############# Add the ROMS model dFe profiles
-scale_factor <- 1/5 # factor to scale the model results
+scale_factor <- 1/2.5 # factor to scale the model results
 dFe_model <- list()
 model26_data <- read.csv(file = "./ROMS_dFe/Model.TM26.012112.csv", sep = ",", header = FALSE)
 model26_depth <- -1*model26_data$V1[model26_data$V4<10]
