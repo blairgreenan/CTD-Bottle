@@ -153,10 +153,16 @@ model27_dFe <- scale_factor*model27_data$V5[model27_data$V5<10]
 dFe_model <- rbind(dFe_model, data.frame(Pressure=model27_depth,dFe=model27_dFe,Facet_cast=37))
 
 
+# create two vectors containing the dFe plus and minus 10% to represent the errorbars to be added to the data
+dFe_data$dFe_min <- dFe_data$dFe - (0.1*dFe_data$dFe)
+dFe_data$dFe_max <- dFe_data$dFe + (0.1*dFe_data$dFe)
+
+
 dev.new()
 # Facet plot of the data
 plt <- ggplot(data=dFe_data) + 
-  geom_point(mapping = aes(x=dFe, y=Pressure)) + 
+  geom_point(mapping = aes(x=dFe, y=Pressure)) +
+  geom_errorbarh(aes(xmin = (x-(0.1*x)), xmax = (x+(0.1*x))), height = 0.2) +
   facet_wrap(~Facet_cast, scales = "fixed") + 
   scale_y_reverse() +
 #  xlab(expression(paste("Dissolved Iron (",~mu,"M)"))) +  # mistake on my part....units should be nM
@@ -168,8 +174,24 @@ plt <- ggplot(data=dFe_data) +
   
 plt
 
-ggsave("RossBank_dFe.png", width = 10, height = 8, units = c("cm"), dpi = 1200, bg = "white", scale = 1.5)
-ggsave("RossBank_dFe.pdf", width = 10, height = 8, units = c("cm"), dpi = 1200, bg = "white", scale = 1.5)
+dev.new()
+# Facet plot of the data
+plt2 <- ggplot(data=dFe_data, mapping = aes(x=dFe, y=Pressure)) + 
+  geom_point(size = 1) +
+  geom_errorbarh(aes(xmin = dFe_min, xmax = dFe_max), height = 0.2) +
+  facet_wrap(~Facet_cast, scales = "fixed") + 
+  scale_y_reverse() +
+  #  xlab(expression(paste("Dissolved Iron (",~mu,"M)"))) +  # mistake on my part....units should be nM
+  xlab("Dissolved Iron (nM)") +
+  ylab("Depth (m)") +
+  geom_hline(data=dFe_data, aes(yintercept=WD))
+
+#plt <- plt + geom_line(data = dFe_model, aes(x=dFe, y=Pressure), color="red")
+
+plt2
+
+ggsave("RossBank_dFe_errorbars.png", width = 10, height = 8, units = c("cm"), dpi = 1200, bg = "white", scale = 1.5)
+ggsave("RossBank_dFe_errorbars.pdf", width = 10, height = 8, units = c("cm"), dpi = 1200, bg = "white", scale = 1.5)
 
 dev.off()
 
