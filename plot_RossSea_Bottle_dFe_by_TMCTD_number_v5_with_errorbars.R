@@ -212,4 +212,30 @@ dev.off()
 # Create TIFF file
 #tiff("dFE_TMCTD_cast.tiff", width=6, height=6, units='in', res=1200, compression = 'lzw')
 
+# create plot to be merged with the DFe historical data
+dev.new()
+# Facet plot of the data
+plt2a <- ggplot(data=dFe_data, mapping = aes(x=dFe, y=Pressure)) + 
+  geom_point(size = 1) +
+  geom_errorbarh(aes(xmin = dFe_min, xmax = dFe_max), height = 0.2) +
+  facet_wrap(~Facet_cast, scales = "fixed") + 
+  scale_y_continuous(trans = "reverse", limits = c(700, 0)) +
+  scale_x_continuous(limits = c(0, 1.25), breaks = c(0, 0.3, 0.6, 0.9, 1.2), labels = c("", "", "", "", "")) +
+#  scale_x_continuous(limits = c(0, 1.25), breaks = c(0, 0.3, 0.6, 0.9, 1.2), labels = c("0.0", "0.3", "0.6", "0.9", "1.2")) +
+  xlab("") +
+  ylab("") +
+#  ylab("Depth (m)") +
+  geom_hline(data=dFe_data, aes(yintercept=WD))
+
+#plt <- plt + geom_line(data = dFe_model, aes(x=dFe, y=Pressure), color="red")
+
+plt2a
+
+ggsave("RossBank_dFe_errorbars_merge.png", width = 10, height = 8, units = c("cm"), dpi = 1200, bg = "white", scale = 1.5)
+ggsave("RossBank_dFe_errorbars_merge.pdf", width = 10, height = 8, units = c("cm"), dpi = 1200, bg = "white", scale = 1.5)
+
+dev.off()
+
+
+
 
