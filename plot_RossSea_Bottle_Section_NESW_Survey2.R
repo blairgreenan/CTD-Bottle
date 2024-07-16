@@ -123,7 +123,7 @@ text(5,550,"Silicate (\u03BCM)", adj=0)
 plot(RBgrid2, which="N+N (uM)", ztype = "image", zcol = cmocean('matter'), zbreaks=seq(16, 34, 2), showBottom = RossSeaBathy, legend.text = 'E', ylim = c(600, 0))
 text(5,550,"N+N (\u03BCM)", adj=0)
 plot(RBgrid2, which="Chl a (ug/L)", ztype = "image", zcol = cmocean('algae'), zbreaks=seq(0, 7, 0.5), showBottom = RossSeaBathy, legend.text = 'F', ylim = c(600, 0))
-text(5,550,"Chlorophyll a (\u03BCg/L)", adj=0)
+text(5,550,expression(paste("Chl-a (\u03BCg ", L^-1, ")")), adj=0)
 
 
 # Close of the TIFF image to force the write to file
