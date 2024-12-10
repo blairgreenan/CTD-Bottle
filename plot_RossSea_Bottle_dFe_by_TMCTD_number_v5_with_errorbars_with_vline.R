@@ -216,9 +216,9 @@ dev.off()
 dev.new()
 # Facet plot of the data
 plt2a <- ggplot(data=dFe_data, mapping = aes(x=dFe, y=Pressure)) + 
-  geom_vline(xintercept = 0.15, color = "red", linewidth = 0.25) +
+  geom_vline(xintercept = 0.2, color = "red", linewidth = 0.5) +
   geom_point(size = 1) +
-  geom_path(linewidth = 0.25) +
+  geom_path(linewidth = 0.5) +
   geom_errorbarh(aes(xmin = dFe_min, xmax = dFe_max), height = 0.2) +
   facet_wrap(~Facet_cast, scales = "fixed") + 
   scale_y_continuous(trans = "reverse", limits = c(700, 0)) +
